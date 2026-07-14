@@ -1,0 +1,102 @@
+{
+  "name": "norain",
+  "version": "0.3.0",
+  "description": "Motrix-inspired local download manager for links, torrents, magnets, and videos.",
+  "author": "NOrain",
+  "homepage": "https://jimiddr-crypto.github.io/NOrain/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jimiddr-crypto/NOrain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jimiddr-crypto/NOrain/issues"
+  },
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "desktop": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win nsis portable",
+    "dist:mac": "electron-builder --mac dmg zip",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "electron-updater": "^6.8.9",
+    "express": "^5.1.0",
+    "extract-zip": "^2.0.1",
+    "multer": "^2.0.2",
+    "parse-torrent": "^11.0.21"
+  },
+  "devDependencies": {
+    "electron": "^43.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "io.github.jimiddrcrypto.norain",
+    "productName": "NOrain",
+    "directories": {
+      "output": "release"
+    },
+    "electronDownload": {
+      "mirror": "https://npmmirror.com/mirrors/electron/"
+    },
+    "files": [
+      "electron/**/*",
+      "src/**/*",
+      "public/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "extension",
+        "to": "browser-extension"
+      }
+    ],
+    "asar": true,
+    "electronUpdaterCompatibility": ">=2.16",
+    "publish": [
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "artifactName": "NOrain-Setup.${ext}"
+    },
+    "portable": {
+      "artifactName": "NOrain-Portable.${ext}"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.utilities",
+      "minimumSystemVersion": "12.0",
+      "hardenedRuntime": true,
+      "notarize": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.inherit.plist",
+      "artifactName": "NOrain-mac-${arch}.${ext}",
+      "extraResources": [
+        {
+          "from": "vendor/aria2/${arch}",
+          "to": "aria2"
+        }
+      ]
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

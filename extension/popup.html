@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NOrain</title><link rel="stylesheet" href="popup.css"><script defer src="popup.js"></script></head>
+<body><main>
+  <header><div><h1>NOrain</h1><p><i id="statusDot"></i><span id="status">正在连接桌面端</span></p></div><button id="refresh" title="重新连接">↻</button></header>
+  <button id="sendCurrent" class="current"><span>＋</span><b>下载当前页面</b></button>
+  <label class="toggle"><span><b>自动接管</b><small>接收成功后才取消浏览器下载</small></span><input id="autoCapture" type="checkbox"></label>
+  <div class="send-box"><input id="urlInput" placeholder="粘贴链接或视频页面"><div class="actions"><button id="sendLink">发送链接</button><button id="sendVideo" class="secondary">解析视频</button></div></div>
+  <details><summary>接管设置</summary><label>自动接管方式<select id="captureMode"><option value="link">普通下载</option><option value="video">视频解析</option></select></label><button id="saveSettings" class="secondary">保存设置</button></details>
+</main></body></html>

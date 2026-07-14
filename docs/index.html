@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NOrain is a local-first Windows download and subtitle control center for links, torrents, magnets and online video.">
+  <title>NOrain - Download without detours</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./details.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="返回顶部"><span class="brand-mark"></span>NOrain</a>
+      <nav aria-label="主要导航">
+        <a href="#features">能力</a><a href="#subtitles">字幕</a><a href="#design">设计</a>
+        <button id="languageToggle" class="language-toggle" type="button" aria-label="切换语言">中文</button>
+        <a class="nav-cta" href="https://github.com/jimiddr-crypto/NOrain/releases/latest/download/NOrain-Setup.exe">下载</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> WINDOWS DOWNLOAD CONTROL</p>
+        <h1>下载，<br><strong>不必绕路。</strong></h1>
+        <p class="lead">链接、磁力、BT、在线视频和字幕工作统一收束。复制，确认，然后让 NOrain 全速前行。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/jimiddr-crypto/NOrain/releases/latest/download/NOrain-Setup.exe"><span>↓</span>下载 Windows 版</a>
+          <a class="button ghost" href="#design">查看设计</a>
+        </div>
+        <dl class="hero-stats">
+          <div><dt>7+</dt><dd>资源入口</dd></div>
+          <div><dt>LOCAL</dt><dd>任务与密钥留在本机</dd></div>
+          <div><dt>0.3</dt><dd>字幕中心已就绪</dd></div>
+        </dl>
+      </div>
+
+      <div class="machine-stage" aria-label="NOrain 界面空间展示">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        <div class="device" data-tilt>
+          <div class="device-top"><b>NOrain</b><span>○　↻　−　×</span></div>
+          <div class="create-key"><i>＋</i><strong>新建任务</strong></div>
+          <div class="speed-row"><span>下载速度<b>7.7 MB/s</b></span><span>上传速度<b>1.4 MB/s</b></span></div>
+          <div class="path-line">▱　C:\Downloads\NOrain</div>
+          <div class="queue-dock">
+            <div class="track"><i></i></div>
+            <strong>Ghost.of.Tsushima.Directors.Cut</strong><small>下载中 · 33.3%</small>
+          </div>
+        </div>
+        <div class="charm charm-link"><span>↗</span><b>LINK</b><small>即贴即识别</small></div>
+        <div class="charm charm-bt"><span>⌁</span><b>MAGNET</b><small>选择文件</small></div>
+        <div class="charm charm-video"><span>▶</span><b>VIDEO</b><small>流媒体解析</small></div>
+        <div class="charm charm-speed"><span>»</span><b>FULL SPEED</b><small>最快任务高光</small></div>
+        <div class="charm charm-subtitle"><span>CC</span><b>SUBTITLE</b><small>片源精准匹配</small></div>
+      </div>
+    </section>
+
+    <section class="manifesto">
+      <p>浏览器能完成的小事，不必交给它。</p>
+      <h2>复杂下载出现时<br>NOrain 才走到前面</h2>
+    </section>
+
+    <section class="feature-section" id="features">
+      <header class="section-head"><h2><span class="section-title-icon" aria-hidden="true">↓</span><span>一个入口，接住所有任务</span></h2><a class="section-download" href="https://github.com/jimiddr-crypto/NOrain/releases/latest/download/NOrain-Setup.exe"><span>↓</span>下载 Windows 版</a></header>
+      <div class="feature-grid">
+        <article class="feature-large">
+          <span class="feature-index">A</span><h3>自动读懂剪贴板</h3>
+          <p>进入新建任务时，自动判断普通链接、磁力链接、种子文件或视频页面，并填入对应信息。</p>
+          <div class="link-sample"><span>magnet:?xt=urn:btih:</span><i>READY</i></div>
+        </article>
+        <article><span class="feature-index">B</span><h3>多引擎协作</h3><p>aria2 负责链接与 BT，yt-dlp 与 ffmpeg 接管视频流。</p><div class="engine-tags"><b>aria2</b><b>yt-dlp</b><b>ffmpeg</b></div></article>
+        <article><span class="feature-index">C</span><h3>浏览器接管</h3><p>扩展捕获浏览器下载，把任务送回桌面端统一处理。</p><div class="browser-line"><i></i><i></i><i></i><span>INTERCEPTED</span></div></article>
+        <article class="feature-wide"><span class="feature-index">D</span><h3>选你真正需要的文件</h3><p>打开种子后按文件挑选内容，不必把几十 GB 的无关内容一起带走。</p><div class="file-stack"><span>Movie.mkv <b>18.4 GB</b></span><span>Subtitle.zh.srt <b>86 KB</b></span><span class="muted">Bonus.pack <b>SKIP</b></span></div></article>
+      </div>
+    </section>
+
+    <section class="subtitle-section" id="subtitles">
+      <header class="section-head"><h2><span class="section-title-icon icon-cc" aria-hidden="true">CC</span><span>片源落盘以后，字幕不再靠碰运气</span></h2><a class="section-download" href="https://github.com/jimiddr-crypto/NOrain/releases/latest/download/NOrain-Setup.exe"><span>↓</span>下载 Windows 版</a></header>
+      <div class="subtitle-stage">
+        <div class="subtitle-copy">
+          <p class="subtitle-lead">从下载中的任务名提前检索，到完整文件的影片哈希匹配，再到容器内嵌字幕提取，所有结果进入同一条选择路径。</p>
+          <dl class="subtitle-methods">
+            <div><dt>01</dt><dd><b>下载中预检索</b><span>按片名、年份、季集和发布组提前寻找</span></dd></div>
+            <div><dt>02</dt><dd><b>本地视频分析</b><span>哈希匹配、同目录扫描、内嵌字幕识别</span></dd></div>
+            <div><dt>03</dt><dd><b>指定字幕获取</b><span>限定语言、片源版本或直接下载地址</span></dd></div>
+          </dl>
+        </div>
+        <div class="subtitle-console" data-tilt-soft>
+          <div class="console-head"><span>NORAIN / SUBTITLE CENTER</span><i>ONLINE SOURCES 2</i></div>
+          <div class="source-switch"><b>下载任务</b><span>本地视频</span><span>指定检索</span></div>
+          <div class="media-row"><i>MKV</i><div><b>Example.Movie.2026.2160p.WEB-DL</b><span>影片哈希已生成 · 23.976 FPS</span></div><em>分析完成</em></div>
+          <div class="match-list">
+            <div class="match best"><span>96</span><div><b>Example.Movie.WEB-DL.zh-CN.srt</b><small>OpenSubtitles · 简体中文 · 哈希吻合</small></div><i>最佳</i></div>
+            <div class="match"><span>88</span><div><b>Example Movie 2026</b><small>SubDL · 简体中文 · 片源吻合</small></div><i>SRT</i></div>
+            <div class="match"><span>100</span><div><b>内嵌字幕轨道 #2</b><small>本地容器 · English · SubRip</small></div><i>提取</i></div>
+          </div>
+          <button type="button">获取选中字幕 <span>↓</span></button>
+        </div>
+        <div class="provider-tag provider-local"><b>LOCAL</b><span>内嵌 / 同目录</span></div>
+        <div class="provider-tag provider-hash"><b>HASH</b><span>OpenSubtitles</span></div>
+        <div class="provider-tag provider-source"><b>SOURCE</b><span>yt-dlp</span></div>
+      </div>
+      <p class="privacy-note">API Key 只写入本机运行目录。没有在线密钥时，本地扫描、内嵌提取和视频页面字幕依然可用。</p>
+    </section>
+
+    <section class="design-section" id="design">
+      <header class="section-head"><h2><span class="section-title-icon" aria-hidden="true">◆</span><span>它不占据桌面，只在需要时展开</span></h2><a class="section-download" href="https://github.com/jimiddr-crypto/NOrain/releases/latest/download/NOrain-Setup.exe"><span>↓</span>下载 Windows 版</a></header>
+      <div class="showcase">
+        <figure class="shot shot-main"><img src="./assets/norain-task-detail-hd.png" alt="NOrain 主界面和展开的下载任务高清渲染"><figcaption><b>任务展开态</b><span>速度、进度与操作集中在同一层</span></figcaption></figure>
+        <div class="design-notes">
+          <article><b>01</b><h3>无系统边框</h3><p>纯界面、任意空白处拖动，窗口随内容自动伸展。</p><figure class="detail-visual"><img src="./assets/norain-frameless-hd.png" alt="NOrain 无系统边框主界面高清细节"></figure></article>
+          <article><b>02</b><h3>吸附式任务坞</h3><p>默认只露出完整进度轨道，靠近后展开任务详情。</p><figure class="detail-visual dock-visual"><img src="./assets/norain-dock-collapsed-hd.png" alt="NOrain 半隐藏吸附式任务坞高清细节"></figure></article>
+          <article><b>03</b><h3>速度成为视觉信号</h3><p>最快任务拥有沿弧形边缘流动的高光，而不是无意义装饰。</p><figure class="detail-visual"><img src="./assets/norain-fastest-hd.png" alt="NOrain 最快任务进度高光高清细节"></figure></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="operations-section">
+      <header class="section-head"><h2><span class="section-title-icon" aria-hidden="true">↻</span><span>窗口收起，任务没有停下</span></h2><a class="section-download" href="https://github.com/jimiddr-crypto/NOrain/releases/latest/download/NOrain-Setup.exe"><span>↓</span>下载 Windows 版</a></header>
+      <div class="operation-rail">
+        <article><span>01</span><h3>托盘后台</h3><p>关闭界面后引擎继续运行，双击托盘即可回来。</p></article>
+        <article><span>02</span><h3>系统通知</h3><p>完成与失败只提醒一次，点击通知直接定位任务。</p></article>
+        <article><span>03</span><h3>计划任务</h3><p>单次或每日执行，重启后依旧保留下一次运行时间。</p></article>
+        <article><span>04</span><h3>分层限速</h3><p>分别控制全局下载、上传、并发数量与单任务速度。</p></article>
+      </div>
+    </section>
+
+    <section class="pipeline">
+      <div class="pipeline-copy"><h2><span class="section-title-icon" aria-hidden="true">→</span><span>从复制到落盘，路径清晰可见</span></h2><a class="section-download" href="https://github.com/jimiddr-crypto/NOrain/releases/latest/download/NOrain-Setup.exe"><span>↓</span>下载 Windows 版</a></div>
+      <ol>
+        <li><span>01</span><b>捕获</b><small>剪贴板 / 浏览器 / 种子</small></li>
+        <li><span>02</span><b>识别</b><small>协议与资源类型</small></li>
+        <li><span>03</span><b>执行</b><small>aria2 / yt-dlp / ffmpeg</small></li>
+        <li><span>04</span><b>扩展</b><small>字幕匹配 / 整理 / 通知</small></li>
+        <li><span>05</span><b>定位</b><small>完成后直接选中文件</small></li>
+      </ol>
+    </section>
+
+    <section class="start-section" id="start">
+      <p class="eyebrow"><span></span> BUILD IT LOCALLY</p>
+      <h2 class="start-title">
+        <span class="start-title-line"><i>让</i><i>NOrain</i></span>
+        <strong class="start-title-line start-title-cn"><i>开</i><i>始</i><i>下</i><i>雨</i></strong>
+      </h2>
+      <div class="release-actions">
+        <a class="release-option release-primary" href="https://github.com/jimiddr-crypto/NOrain/releases/latest/download/NOrain-Setup.exe"><span class="release-icon">↓</span><span><b>Windows 安装版</b><small>推荐 · 自动安装</small></span></a>
+        <a class="release-option" href="https://github.com/jimiddr-crypto/NOrain/releases/latest/download/NOrain-Portable.exe"><span class="release-icon">↗</span><span><b>便携版</b><small>无需安装，直接运行</small></span></a>
+      </div>
+      <p class="source-label">从源码构建</p>
+      <div class="terminal"><div><i></i><i></i><i></i><b>PowerShell</b></div><code><span>&gt;</span> npm install<br><span>&gt;</span> npm run desktop</code><button type="button" data-copy="npm install\nnpm run desktop">复制</button></div>
+      <p class="requirements">需要 Windows 与 Node.js 20+。首次运行会准备下载引擎。</p>
+    </section>
+  </main>
+
+  <footer><div class="footer-inner"><a class="brand" href="#top"><span class="brand-mark"></span>NOrain</a><p>Local first. Full speed ahead.</p><span>ALPHA / 0.3.0</span></div></footer>
+  <script src="./i18n.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

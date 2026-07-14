@@ -1,0 +1,94 @@
+name: Release NOrain
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build and publish Windows packages
+        run: npx electron-builder --win nsis portable --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRAVIS_REPO_SLUG: ${{ github.repository }}
+          CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+
+  prepare-aria2:
+    if: ${{ vars.ENABLE_MACOS_RELEASE == 'true' }}
+    strategy:
+      matrix:
+        include:
+          - arch: arm64
+            runner: macos-15
+          - arch: x64
+            runner: macos-15-intel
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bundle aria2 and its dynamic libraries
+        shell: bash
+        run: |
+          brew install aria2 dylibbundler
+          root="vendor/aria2/${{ matrix.arch }}"
+          mkdir -p "$root/bin" "$root/lib"
+          cp "$(brew --prefix aria2)/bin/aria2c" "$root/bin/aria2c"
+          dylibbundler \
+            -od -b \
+            -x "$root/bin/aria2c" \
+            -d "$root/lib" \
+            -p "@executable_path/../lib"
+          chmod 755 "$root/bin/aria2c" "$root/lib"/*.dylib
+          "$root/bin/aria2c" --version
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aria2-${{ matrix.arch }}
+          path: vendor/aria2/${{ matrix.arch }}
+          if-no-files-found: error
+
+  build-macos:
+    if: ${{ vars.ENABLE_MACOS_RELEASE == 'true' }}
+    needs:
+      - build-windows
+      - prepare-aria2
+    runs-on: macos-15-intel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/download-artifact@v4
+        with:
+          name: aria2-arm64
+          path: vendor/aria2/arm64
+      - uses: actions/download-artifact@v4
+        with:
+          name: aria2-x64
+          path: vendor/aria2/x64
+      - run: npm ci
+      - name: Install both macOS FFmpeg architectures
+        run: npm install --no-save @ffmpeg-installer/darwin-arm64@4.1.5 @ffmpeg-installer/darwin-x64@4.1.0
+      - name: Build, sign, notarize and publish macOS packages
+        run: npx electron-builder --mac dmg zip --x64 --arm64 --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRAVIS_REPO_SLUG: ${{ github.repository }}
+          CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}

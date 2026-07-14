@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "NOrain Connector",
+  "version": "0.3.0",
+  "description": "Send browser links and downloads to NOrain.",
+  "permissions": [
+    "contextMenus",
+    "downloads",
+    "storage",
+    "notifications",
+    "tabs",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:4288/*",
+    "http://localhost:4288/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "NOrain",
+    "default_popup": "popup.html"
+  }
+}

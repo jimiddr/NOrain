@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NOrain</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./surface.css" />
+    <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <main class="compact-shell">
+        <section class="home-card">
+          <header class="home-head">
+            <div>
+              <h1>NOrain</h1>
+              <span id="engineStatus">启动中</span>
+            </div>
+            <div class="home-actions">
+              <button id="toolsButton" class="icon-button" title="下载工具">
+                <i data-lucide="sliders-horizontal"></i>
+              </button>
+              <button id="themeToggle" class="icon-button" title="切换主题">
+                <i data-lucide="moon"></i>
+              </button>
+              <button id="refreshButton" class="icon-button" title="刷新">
+                <i data-lucide="refresh-cw"></i>
+              </button>
+              <button id="minimizeWindow" class="icon-button" title="最小化">
+                <i data-lucide="minus"></i>
+              </button>
+              <button id="closeWindow" class="icon-button danger-button" title="关闭">
+                <i data-lucide="x"></i>
+              </button>
+            </div>
+          </header>
+
+          <button id="quickAdd" class="new-task-button">
+            <i data-lucide="plus"></i>
+            <span>新建任务</span>
+          </button>
+          <button id="addTaskButton" class="hidden" aria-hidden="true"></button>
+
+          <section class="home-metrics">
+            <div>
+              <span>下载速度</span>
+              <strong id="globalDown">0 B/s</strong>
+            </div>
+            <div>
+              <span>上传速度</span>
+              <strong id="globalUp">0 B/s</strong>
+            </div>
+          </section>
+
+          <div class="home-path">
+            <i data-lucide="folder"></i>
+            <span id="downloadDir">默认下载目录</span>
+          </div>
+        </section>
+
+        <section id="queueDock" class="queue-dock" aria-label="下载队列">
+          <div class="queue-head">
+            <strong>下载中</strong>
+            <span id="queueSummary">没有正在进行的任务</span>
+            <div class="queue-peek-track" aria-hidden="true">
+              <div class="queue-peek-fill"><span class="queue-peek-sheen"></span></div>
+            </div>
+          </div>
+          <div id="tasks" class="download-stack"></div>
+          <div id="emptyState" class="empty-state">
+            <i data-lucide="download-cloud"></i>
+            <strong>空闲</strong>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <section id="taskDialog" class="task-dialog inline-task-panel" aria-hidden="true">
+      <form id="taskForm">
+        <header class="dialog-head">
+          <div>
+            <h3>新建任务</h3>
+            <span id="dialogHint">粘贴链接、磁力链接、视频页面，或选择种子文件</span>
+          </div>
+          <button type="button" id="closeTaskDialog" class="icon-button" title="关闭">
+            <i data-lucide="x"></i>
+          </button>
+        </header>
+
+        <section class="source-field">
+          <label class="field">
+            <span>下载内容</span>
+            <textarea id="urls" name="urls" rows="5" placeholder="https://example.com/file.zip"></textarea>
+          </label>
+          <div class="source-actions">
+            <button type="button" id="pickTorrentButton" class="secondary-button">
+              <i data-lucide="file-up"></i><span>选择种子文件</span>
+            </button>
+            <span id="sourceSummary">自动识别下载方式</span>
+          </div>
+          <input id="torrentFile" name="torrent" type="file" accept=".torrent" />
+        </section>
+
+        <section class="torrent-panel hidden" id="torrentPanel">
+          <div class="torrent-summary">
+            <div>
+              <strong id="torrentName">未选择种子</strong>
+              <span id="torrentMeta">0 个文件</span>
+            </div>
+            <div class="torrent-actions">
+              <button type="button" class="subtle-button" id="selectAllTorrent">全选</button>
+              <button type="button" class="subtle-button" id="selectNoneTorrent">全不选</button>
+            </div>
+          </div>
+          <div id="torrentFiles" class="torrent-files"></div>
+        </section>
+
+        <div class="field-grid">
+          <label class="field directory-field">
+            <span>保存到</span>
+            <div class="path-picker">
+              <input id="dir" name="dir" readonly placeholder="默认下载目录" />
+              <button type="button" id="pickDirButton" class="icon-button" title="选择目录">
+                <i data-lucide="folder-open"></i>
+              </button>
+              <button type="button" id="clearDirButton" class="icon-button" title="使用默认目录">
+                <i data-lucide="rotate-ccw"></i>
+              </button>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>文件名</span>
+            <input id="out" name="out" placeholder="可选" />
+          </label>
+
+          <label class="field">
+            <span>线程</span>
+            <input id="threads" name="threads" type="number" min="1" max="64" value="16" />
+          </label>
+
+          <label class="field">
+            <span>限速</span>
+            <input id="rateLimit" name="rateLimit" placeholder="例如 2M / 500K" />
+          </label>
+
+          <label class="field">
+            <span>User-Agent</span>
+            <input id="userAgent" name="userAgent" placeholder="可选" />
+          </label>
+
+          <label class="field">
+            <span>Referer</span>
+            <input id="referer" name="referer" placeholder="可选" />
+          </label>
+
+          <label class="field video-only hidden">
+            <span>格式</span>
+            <input id="format" name="format" placeholder="默认最佳" />
+          </label>
+
+          <label class="check-field video-only hidden">
+            <input id="playlist" name="playlist" type="checkbox" />
+            <span>播放列表</span>
+          </label>
+        </div>
+
+        <footer class="dialog-actions">
+          <button type="button" id="formatsButton" class="secondary-button hidden">
+            <i data-lucide="list"></i><span>格式列表</span>
+          </button>
+          <button type="button" id="submitTaskButton" class="primary-button">
+            <i data-lucide="download"></i><span>开始下载</span>
+          </button>
+        </footer>
+      </form>
+    </section>
+
+    <dialog id="formatDialog" class="format-dialog">
+      <div class="dialog-head">
+        <h3>视频格式</h3>
+        <button id="closeFormats" class="icon-button" title="关闭">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <pre id="formatOutput"></pre>
+    </dialog>
+
+    <dialog id="deleteDialog" class="confirm-dialog">
+      <div class="dialog-head">
+        <div>
+          <h3>删除任务</h3>
+          <span id="deleteTarget">选择删除方式</span>
+        </div>
+        <button id="cancelDeleteButton" class="icon-button" title="取消">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="delete-actions">
+        <button type="button" id="deleteListOnlyButton" class="secondary-button">
+          <i data-lucide="list-x"></i><span>只删除列表</span>
+        </button>
+        <button type="button" id="deleteFilesButton" class="primary-button danger-primary">
+          <i data-lucide="trash-2"></i><span>删除任务和文件</span>
+        </button>
+      </div>
+    </dialog>
+
+    <dialog id="toolsDialog" class="tools-dialog">
+      <header class="dialog-head">
+        <div><h3>下载工具</h3><span>后台、计划、字幕与更新</span></div>
+        <button id="closeToolsButton" class="icon-button" title="关闭"><i data-lucide="x"></i></button>
+      </header>
+      <div class="tool-tabs" role="tablist">
+        <button class="active" data-tool-tab="policy">策略</button>
+        <button data-tool-tab="schedule">计划</button>
+        <button data-tool-tab="subtitle">字幕</button>
+        <button data-tool-tab="update">更新</button>
+      </div>
+      <section class="tool-pane active" data-tool-pane="policy">
+        <label class="field"><span>全局下载限速</span><input id="globalDownloadLimit" placeholder="0 / 500K / 2M" /></label>
+        <label class="field"><span>全局上传限速</span><input id="globalUploadLimit" placeholder="0 / 500K / 2M" /></label>
+        <label class="field"><span>同时下载任务</span><input id="maxConcurrentDownloads" type="number" min="1" max="50" /></label>
+        <label class="check-field"><input id="notificationsEnabled" type="checkbox" /><span>完成或失败时发送系统通知</span></label>
+        <label class="check-field"><input id="closeToTray" type="checkbox" /><span>关闭窗口后继续在托盘运行</span></label>
+        <button id="savePolicyButton" class="primary-button"><i data-lucide="save"></i><span>保存策略</span></button>
+      </section>
+      <section class="tool-pane" data-tool-pane="schedule">
+        <label class="field"><span>下载链接</span><input id="scheduleUrl" placeholder="https://... 或 magnet:?" /></label>
+        <div class="tool-grid">
+          <label class="field"><span>开始时间</span><input id="scheduleTime" type="datetime-local" /></label>
+          <label class="field"><span>重复</span><select id="scheduleRepeat"><option value="once">仅一次</option><option value="daily">每天</option></select></label>
+        </div>
+        <button id="addScheduleButton" class="primary-button"><i data-lucide="calendar-plus"></i><span>添加计划</span></button>
+        <div id="scheduleList" class="schedule-list"></div>
+      </section>
+      <section class="tool-pane" data-tool-pane="subtitle">
+        <div class="subtitle-modes">
+          <button class="active" data-subtitle-mode="task">下载任务</button><button data-subtitle-mode="local">本地视频</button><button data-subtitle-mode="specific">指定检索</button>
+        </div>
+        <label class="field subtitle-source active" data-subtitle-source="task"><span>任务</span><select id="subtitleTask"></select></label>
+        <div class="path-picker subtitle-source" data-subtitle-source="local"><input id="subtitleVideoPath" readonly placeholder="选择已有视频文件" /><button id="pickSubtitleVideo" class="icon-button" title="选择视频"><i data-lucide="file-video"></i></button></div>
+        <div class="subtitle-source specific-fields" data-subtitle-source="specific">
+          <label class="field"><span>片名</span><input id="subtitleTitle" placeholder="电影或剧集名称" /></label>
+          <div class="tool-grid"><label class="field"><span>年份</span><input id="subtitleYear" placeholder="2026" /></label><label class="field"><span>语言</span><input id="subtitleLanguages" value="zh-CN,zh-TW,en" /></label></div>
+          <div class="tool-grid"><label class="field"><span>季</span><input id="subtitleSeason" type="number" min="0" /></label><label class="field"><span>集</span><input id="subtitleEpisode" type="number" min="0" /></label></div>
+          <label class="field"><span>片源版本</span><input id="subtitleRelease" placeholder="WEB-DL / BluRay / 发布组" /></label>
+          <label class="field"><span>直接字幕链接</span><input id="subtitleDirectUrl" placeholder="可选，https://...srt 或 zip" /></label>
+        </div>
+        <button id="searchSubtitlesButton" class="secondary-button"><i data-lucide="search"></i><span>分析并查找</span></button>
+        <div id="subtitleResults" class="subtitle-results"><span>选择来源后查找字幕。</span></div>
+        <button id="downloadSubtitlesButton" class="primary-button hidden"><i data-lucide="captions"></i><span>获取选中字幕</span></button>
+        <details class="provider-settings"><summary>在线字幕源</summary><label class="field"><span>SubDL API Key</span><input id="subdlApiKey" type="password" /></label><label class="field"><span>OpenSubtitles API Key</span><input id="openSubtitlesApiKey" type="password" /></label><label class="field"><span>OpenSubtitles Token</span><input id="openSubtitlesToken" type="password" placeholder="可选，下载额度更高" /></label><button id="saveSubtitleProviders" class="secondary-button">保存字幕源</button></details>
+      </section>
+      <section class="tool-pane update-pane" data-tool-pane="update">
+        <div class="update-summary">
+          <span class="update-mark"><i data-lucide="sparkles"></i></span>
+          <div><strong>NOrain <span id="currentVersion">0.3.0</span></strong><small>Windows 与 macOS 共用稳定更新通道</small></div>
+        </div>
+        <label class="check-field"><input id="autoUpdateCheck" type="checkbox" /><span>启动后自动检查，并在后台下载更新</span></label>
+        <div class="update-status" aria-live="polite">
+          <div><span id="updateStatusText">尚未检查更新</span><b id="updatePercent"></b></div>
+          <div id="updateProgress" class="update-progress" hidden><span></span></div>
+          <small id="updateMeta"></small>
+        </div>
+        <div class="update-actions">
+          <button id="checkUpdateButton" class="secondary-button"><i data-lucide="refresh-cw"></i><span>检查更新</span></button>
+          <button id="installUpdateButton" class="primary-button hidden"><i data-lucide="power"></i><span>重启并安装</span></button>
+        </div>
+      </section>
+    </dialog>
+
+    <dialog id="limitDialog" class="confirm-dialog limit-dialog">
+      <div class="dialog-head"><div><h3>任务限速</h3><span id="limitTarget"></span></div><button id="closeLimitButton" class="icon-button"><i data-lucide="x"></i></button></div>
+      <label class="field"><span>最高下载速度</span><input id="taskDownloadLimit" placeholder="0 / 500K / 2M" /></label>
+      <button id="saveTaskLimitButton" class="primary-button"><i data-lucide="gauge"></i><span>应用限速</span></button>
+    </dialog>
+  </body>
+</html>
